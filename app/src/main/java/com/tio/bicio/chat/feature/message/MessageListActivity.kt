@@ -2,7 +2,6 @@ package com.tio.bicio.chat.feature.message
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -35,7 +34,7 @@ class MessageListActivity : AppCompatActivity(), MessageListView {
     override fun showItem(message: Message) {
         runOnUiThread {
             messageAdapter?.addItem(message)
-            messageAdapter?.notifyItemChanged()
+            messageAdapter?.notifyItemInserted()
 
             recycleViewMessages?.postDelayed({
                 recycleViewMessages.smoothScrollToPosition(messageAdapter?.itemCount ?: 0)

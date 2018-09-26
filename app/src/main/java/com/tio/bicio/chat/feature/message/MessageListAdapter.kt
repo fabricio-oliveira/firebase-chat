@@ -1,6 +1,5 @@
 package com.tio.bicio.chat.feature.message
 
-import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -30,8 +29,8 @@ class MessageListAdapter(private val currentUser: User) : RecyclerView.Adapter<M
         messageList.add(message)
     }
 
-    fun notifyItemChanged() {
-        notifyItemChanged(messageList.size)
+    fun notifyItemInserted() {
+        notifyItemInserted(messageList.size -1)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -62,11 +61,7 @@ class MessageListAdapter(private val currentUser: User) : RecyclerView.Adapter<M
 
     override fun onBindViewHolder(holder: MessageHolder, position: Int) {
         val message = messageList[position]
-
-        when (holder.itemViewType) {
-            VIEW_TYPE_MESSAGE_SENT -> (holder as SentMessageHolder).bind(message)
-            VIEW_TYPE_MESSAGE_RECEIVED -> (holder as ReceivedMessageHolder).bind(message)
-        }
+         holder.bind(message)
     }
 
     abstract class MessageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
