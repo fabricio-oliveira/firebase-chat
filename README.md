@@ -1,2 +1,2 @@
 # firebase-chat
-test using firebase
+ A chat application built using Google Firebase real-time database for educational purposes.
