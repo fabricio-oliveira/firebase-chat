@@ -12,7 +12,7 @@ import java.util.*
 
 class MessageFirebaseRepository:MessageRepository {
     private var dr: CollectionReference
-    private var timestamp: Date
+    private var timestamp: Date?
 
     init {
         val db = FirebaseFirestore.getInstance()
@@ -30,11 +30,13 @@ class MessageFirebaseRepository:MessageRepository {
 
     override fun registerOnDataChanges(onNext: (items: Message) -> Unit,
                                        onError: (throwable: Throwable) -> Unit) {
-        dr.whereGreaterThan(Message.CREATED_AT, timestamp)
+        dr
             .orderBy(Message.CREATED_AT, Direction.ASCENDING)
+            .whereGreaterThan(Message.CREATED_AT, this.timestamp!!)
                 .addSnapshotListener { value, _ ->
                     try {
                         value?.forEach { doc -> onNext(toMemory(doc)) }
+                        timestamp = value?.last()?.let{ toMemory(it).createdAt }
                     } catch (ex: Exception) {
                         onError(ex)
                     }
